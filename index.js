@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
 
+//The serviceAccountKey has been hidden.
 const serviceAccount = require("./serviceAccountKey.json");
 
 admin.initializeApp({
@@ -16,6 +17,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 5000;
 const server = app.listen(port);
 
+//WebSocket
 const io = require('socket.io').listen(server)
 io.origins("*:*")
 io.on('connection', socket => {
@@ -28,6 +30,8 @@ io.on('connection', socket => {
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json())
 // Put all API endpoints under '/api'
+
+// HTTP GET request to get the first ten records
 app.get('/api/records', (req, res) => {
   var arrayResult = []
   const query = ref.orderByChild("timeStamp").limitToFirst(10)
@@ -40,7 +44,7 @@ app.get('/api/records', (req, res) => {
 });
 })
 
-
+// HTTP POST request to post a new result
 app.post(`/api/records`, (req, res) =>{
   const recordTime = req.body['time']
   const recordVal = req.body['value']

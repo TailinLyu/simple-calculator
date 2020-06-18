@@ -39,7 +39,7 @@ class App extends Component {
 	send = () => {
 		socket.emit("new result");
 	};
-
+	// Caution: this method might be harmful, eval() should be replaced.
 	calculate = () => {
 		let result = "";
 		try {
